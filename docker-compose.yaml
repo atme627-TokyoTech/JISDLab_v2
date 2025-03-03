@@ -15,6 +15,8 @@ services:
       - ./debugspace:/workspaces/debugspace
       - ./sample:/workspaces/sample
     working_dir: /workspaces
+    extra_hosts:
+      - host.docker.internal:host-gateway
 ### If you use JISDVis, please remove the comment out below
 #    networks:
 #      - jisdlab-network

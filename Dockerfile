@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.8.19-bullseye
 
 # JupyterLab install
 RUN pip install --upgrade pip && \
@@ -34,16 +34,22 @@ ARG jisd_dir=${jisdlab_dir}/JISD
 ARG cp1=${jisdlab_dir}/jdiscript/jdiscript/build/libs/jdiscript-0.9.0.jar
 
 # JISD classpath
-ARG cp2=${jisd_dir}/build/libs/jisd-all.jar
+ARG cp2=${jisd_dir}/build/libs/jisd-0.2.5.jar
 
 # your application's absolute classpaths in a container(classpath1:classpath2:...)
 ARG cp3=${ws_dir}/sample
+
+# FaultFinder classpath
+ARG cp4=${jisd_dir}/build/libs/MyFaultFinder-1.0-SNAPSHOT-all.jar
+
+# debugTarget classpath
+ARG cp5=${ws_dir}/sample/math_87_buggy/src/java
 
 COPY . $jisdlab_dir
 WORKDIR $jisdlab_dir
 
 # IJava install
-RUN cd IJava && ./gradlew installKernel --param classpath:${cp1}:${cp2}:${cp3} --param startup-scripts-path:${jisd_dir}/startup.jshell
+RUN cd IJava && ./gradlew installKernel --param classpath:${cp1}:${cp2}:${cp3}:${cp4}:${cp5} --param startup-scripts-path:${jisd_dir}/startup.jshell
 # For Windows
 # RUN cd IJava ; ./gradlew.bat installKernel --param classpath:"%JISDLAB_HOME%/jdiscript/jdiscript/build/libs/jdiscript-0.9.0.jar;%JISDLAB_HOME%/JISD/build/libs/jisd-all.jar;%JISDLAB_HOME%/sample" --param startup-scripts-path:"%JISDLAB_HOME%/JISD/startup.jshell"; cd ..
 
@@ -59,4 +65,4 @@ RUN \
 RUN \
   ls && pip install --upgrade elyra-code-snippet-extension &&\
   elyra-metadata import code-snippets --directory "${jisdlab_dir}/code-snippets/" &&\
-  pip uninstall jupyterlab-lsp
+  pip uninstall jupyterlab-lsp -y

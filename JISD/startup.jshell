@@ -16,3 +16,9 @@ import java.util.stream.*;
 
 // graph library
 import org.knowm.xchart.*;
+
+// FaultFinder
+import jisd.fl.coverage.*;
+import jisd.fl.probe.*;
+import jisd.fl.sbfl.*;
+import jisd.fl.util.*;
