@@ -1,4 +1,5 @@
-# JISDLab
+# JISDLab_v2
+[https://github.com/tklab-group/JISDLab]の改良版
 
 Java scriptable debugger on JupyterLab
 
